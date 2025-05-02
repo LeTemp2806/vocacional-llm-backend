@@ -11,7 +11,6 @@ load_dotenv()
 
 app = FastAPI()
 
-# CORS para el frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -20,19 +19,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Startup: inicializa la base de datos y el pipeline RAG
+#Inicio de módulos de bd y el pipeline del RAG
 @app.on_event("startup")
 def on_startup():
     init_db()
-    # get_rag_chain ya lee MODEL_PATH y CHROMA_DIR internamente
     app.state.rag_chain = get_rag_chain()
 
-# Routers
-from src.routers.health import router as health_router
+# Rutas
 from src.routers.chat import router as chat_router
 from src.routers.auth import router as auth_router
 
-app.include_router(health_router)
 app.include_router(auth_router, prefix="/auth")
 app.include_router(chat_router, prefix="/chat")
 
