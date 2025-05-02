@@ -10,9 +10,6 @@ def main():
     # Extrae el nombre de modelo para Ollama (sin el prefijo "ollama://")
     model_name = MODEL_PATH.split("//")[-1]
 
-    # 0) Asegúrate de haber descargado el modelo localmente:
-    #    ejecuta en tu terminal: ollama pull " + model_name + "
-
     # 1) Configurar embeddings y vectorstore
     embeddings = OllamaEmbeddings(model=model_name)
     db = Chroma(
