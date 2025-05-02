@@ -1,17 +1,21 @@
+# src/core/config.py
 import os
 from dotenv import load_dotenv
 
-# construye la ruta absoluta al .env en la raíz del proyecto
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DOTENV_PATH = os.path.join(BASE_DIR, ".env")
+# Determina la ruta base del proyecto para localizar .env y otros recursos
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+# Ruta al archivo .env
+dotenv_path = os.path.join(BASE_DIR, '.env')
+# Carga variables de entorno definiendo override=True para asegurar que .env prevalezca
+load_dotenv(dotenv_path, override=True)
 
-# carga el .env
-loaded = load_dotenv(DOTENV_PATH)
-if not loaded:
-    # solo un warning en consola para debug
-    print(f"⚠️  no pude cargar {DOTENV_PATH}")
+# Configuración de la base de datos y RAG
+DATABASE_URL = os.getenv('DATABASE_URL')
+CHROMA_DIR = os.getenv('CHROMA_DIR')
+MODEL_PATH = os.getenv('MODEL_PATH')
+OLLAMA_HOST = os.getenv('OLLAMA_HOST')
 
-# ahora sí lees las variables
-DATABASE_URL = os.getenv("DATABASE_URL")
-CHROMA_DIR    = os.getenv("CHROMA_DIR")
-MODEL_PATH    = os.getenv("MODEL_PATH")
+# Configuración de seguridad JWT
+SECRET_KEY = os.getenv('SECRET_KEY', 'change-me-to-a-random-secret')
+ALGORITHM = os.getenv('ALGORITHM', 'HS256')
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES', '30'))
