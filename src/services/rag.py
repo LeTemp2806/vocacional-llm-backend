@@ -1,7 +1,9 @@
-# src/services/rag.py
 from langchain_ollama import OllamaLLM, OllamaEmbeddings
 from langchain_chroma import Chroma
 from langchain.chains import RetrievalQA
+from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.stdout import StdOutCallbackHandler
+
 from src.core.config import MODEL_PATH, CHROMA_DIR, OLLAMA_HOST
 
 
@@ -31,11 +33,13 @@ def get_rag_chain() -> RetrievalQA:
         base_url=OLLAMA_HOST,
     )
 
-    # Genera la respuestsa utilizando los 3 primeros chunks que más parecido semántico tengan con la pregunta
+    callback_manager = CallbackManager([StdOutCallbackHandler()])
     chain = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
-        return_source_documents=True
+        return_source_documents=True,
+        verbose=True,                    # activa los logs detallados
+        callback_manager=callback_manager
     )
 
     return chain

@@ -1,4 +1,3 @@
-# src/core/config.py
 import os
 from dotenv import load_dotenv
 
@@ -6,7 +5,7 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 # Ruta al archivo .env
 dotenv_path = os.path.join(BASE_DIR, '.env')
-# Carga variables de entorno definiendo override=True para asegurar que .env prevalezca
+# Carga variables de entorno definiendo
 load_dotenv(dotenv_path, override=True)
 
 # Configuración de la base de datos y RAG
@@ -16,6 +15,6 @@ MODEL_PATH = os.getenv('MODEL_PATH')
 OLLAMA_HOST = os.getenv('OLLAMA_HOST')
 
 # Configuración de seguridad JWT
-SECRET_KEY = os.getenv('SECRET_KEY', 'change-me-to-a-random-secret')
+SECRET_KEY = os.getenv('SECRET_KEY', 'clavesecretitaporsilaotranofunciona')
 ALGORITHM = os.getenv('ALGORITHM', 'HS256')
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES', '30'))
